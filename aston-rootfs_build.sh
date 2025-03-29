@@ -29,6 +29,9 @@ export DEBIAN_FRONTEND=noninteractive
 chroot rootdir apt update
 chroot rootdir apt upgrade -y
 chroot rootdir apt install -y python3-defer
+chroot rootdir apt install -y openssh-server
+chroot rootdir sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+chroot rootdir systemctl enable ssh
 
 echo "#!/bin/bash
 exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
