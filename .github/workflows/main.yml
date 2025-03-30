@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       config:
-        description: "The URL of the custom config(default is fine)"
+        description: "The URL of the custom config"
         required: true
-        default: "1"
+        default: "Default"
 
 jobs:
 
