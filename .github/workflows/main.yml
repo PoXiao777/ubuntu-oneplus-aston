@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       config:
-        description: "Please enter the URL of the custom config"
+        description: "The URL of the custom config(default is fine)"
         required: true
-        default: "defconfig sm8550.config"
+        default: "1"
 
 jobs:
 
