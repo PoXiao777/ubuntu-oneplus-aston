@@ -6,8 +6,6 @@ if [ "$config" = "Default" ]; then
     make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
 else
     wget -O arch/arm64/configs/custom_defconfig $config
-    pwd
-    ls arch/arm64/configs/
     make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- custom_defconfig
 fi
 make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
