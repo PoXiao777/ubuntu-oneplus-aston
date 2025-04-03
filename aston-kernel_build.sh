@@ -1,7 +1,13 @@
 cd $1
 git clone https://github.com/jiganomegsdfdf/aston-mainline.git --depth 1 linux --branch aston-$2
 cd linux
-make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
+config=$3
+if [ "$config" = "Default" ]; then
+    make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig sm8550.config
+else
+    wget -O arch/arm64/configs/custom_defconfig $config
+    make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- custom_defconfig
+fi
 make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 _kernel_version="$(make kernelrelease -s)"
 sed -i "s/Version:.*/Version: ${_kernel_version}/" $1/linux-oneplus-aston/DEBIAN/control
