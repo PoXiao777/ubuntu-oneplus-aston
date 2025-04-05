@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt update && sudo apt install unzip bash tar git wget dpkg android-tools-fsutils
+        run: sudo apt update && sudo apt install unzip bash tar git wget dpkg simg2img
 
       - name: Build rootfs
         run: sudo sh aston-mobian.sh ${{ matrix.desktop }} ${{ github.workspace }}
