@@ -11,7 +11,7 @@ on:
 jobs:
 
   rootfs:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     strategy:
             matrix:
                 desktop: [ubuntu-desktop]
