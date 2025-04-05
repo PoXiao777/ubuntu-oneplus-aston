@@ -18,6 +18,8 @@ mount --bind /proc rootdir/proc
 mount -t tmpfs tmpfs rootdir/data/local/tmp
 mount --bind /sys rootdir/sys
 
+ls rootdir/etc/
+
 echo "nameserver 1.1.1.1" | tee rootdir/etc/resolv.conf
 echo "oneplus-aston" | tee rootdir/etc/hostname
 echo "127.0.0.1 localhost
