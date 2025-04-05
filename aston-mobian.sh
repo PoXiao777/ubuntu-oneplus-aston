@@ -32,6 +32,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 sudo cat rootdir/etc/apt/sources.list
 chroot rootdir echo "nameserver 8.8.8.8" >> /lib/systemd/resolv.conf
+rm rootdir/etc/resolv.conf
+echo "nameserver 8.8.8.8" >  rootdir/etc/resolv.conf
 chroot rootdir apt update
 chroot rootdir apt upgrade -y
 chroot rootdir apt install -y python3-defer
