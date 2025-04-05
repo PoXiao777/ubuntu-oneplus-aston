@@ -20,7 +20,6 @@ mount --bind /sys rootdir/sys
 
 ls rootdir/etc/
 sudo cat rootdir/etc/resolv.conf
-
 sudo echo "nameserver 1.1.1.1" > rootdir/etc/resolv.conf
 sudo cat rootdir/etc/resolv.conf
 sudo echo "oneplus-aston" | tee rootdir/etc/hostname
@@ -30,6 +29,8 @@ sudo echo "127.0.0.1 localhost
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$PATH
 export DEBIAN_FRONTEND=noninteractive
 
+
+sudo cat rootdir/etc/apt/sources.list
 chroot rootdir apt update
 chroot rootdir apt upgrade -y
 chroot rootdir apt install -y python3-defer
