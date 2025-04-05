@@ -37,10 +37,3 @@ jobs:
           path: rootfs.7z
           compression-level: 0
           
-  cleaner:
-    runs-on: ubuntu-24.04-arm
-    needs: rootfs-packager
-    steps:
-      - uses: geekyeggo/delete-artifact@v5
-        with:
-          name: between_${{ matrix.desktop }}*
