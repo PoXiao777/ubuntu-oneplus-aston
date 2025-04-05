@@ -19,8 +19,10 @@ mount -t tmpfs tmpfs rootdir/data/local/tmp
 mount --bind /sys rootdir/sys
 
 ls rootdir/etc/
+sudo cat rootdir/etc/resolv.conf
 
-sudo echo "nameserver 1.1.1.1" | tee rootdir/etc/resolv.conf
+sudo echo "nameserver 1.1.1.1" > rootdir/etc/resolv.conf
+sudo cat rootdir/etc/resolv.conf
 sudo echo "oneplus-aston" | tee rootdir/etc/hostname
 sudo echo "127.0.0.1 localhost
 127.0.1.1 oneplus-aston" | tee rootdir/etc/hosts
