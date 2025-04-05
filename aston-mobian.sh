@@ -20,9 +20,9 @@ mount --bind /sys rootdir/sys
 
 ls rootdir/etc/
 
-echo "nameserver 1.1.1.1" | tee rootdir/etc/resolv.conf
-echo "oneplus-aston" | tee rootdir/etc/hostname
-echo "127.0.0.1 localhost
+sudo echo "nameserver 1.1.1.1" | tee rootdir/etc/resolv.conf
+sudo echo "oneplus-aston" | tee rootdir/etc/hostname
+sudo echo "127.0.0.1 localhost
 127.0.1.1 oneplus-aston" | tee rootdir/etc/hosts
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$PATH
@@ -52,8 +52,6 @@ chroot rootdir glib-compile-schemas /usr/share/glib-2.0/schemas
 
 mkdir rootdir/var/lib/gdm
 touch rootdir/var/lib/gdm/run-initial-setup
-
-chroot rootdir pw-metadata -n settings 0 clock.force-quantum 2048
 
 chroot rootdir apt clean
 
