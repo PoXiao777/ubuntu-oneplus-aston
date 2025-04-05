@@ -10,78 +10,6 @@ on:
 
 jobs:
 
-  alsa:
-    needs: rootfs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Pack Alsa Use Case Configuration into .deb
-        run: cd ${{ github.workspace }} && dpkg-deb --build --root-owner-group alsa-oneplus-aston
-
-      - name: Upload alsa.deb
-        uses: actions/upload-artifact@v4
-        with:
-          name: alsa-oneplus-aston
-          path: ${{ github.workspace }}/alsa-oneplus-aston.deb
-
-  firmware:
-    needs: rootfs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        run: sudo apt update && sudo apt install gcc make git wget dpkg
-
-      - name: Squash firmwares to .mbn
-        run: sudo sh aston-fw_squasher.sh ${{ github.workspace }}
-
-      - name: Upload firmware.deb
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware-oneplus-aston
-          path: ${{ github.workspace }}/firmware-oneplus-aston.deb
-
-
-  kernel:
-    runs-on: ubuntu-24.04-arm
-    strategy:
-            matrix:
-                version: [6.13]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        run: sudo apt update && sudo apt install build-essential gcc-aarch64-linux-gnu bc flex bison 7zip kmod bash cpio binutils tar git wget dpkg libssl-dev python3 python-is-python3
-
-      - name: Build kernel
-        run: sudo sh aston-kernel_build.sh ${{ github.workspace }} ${{ matrix.version }} ${{ github.event.inputs.config }}
-
-      - name: Upload linux.deb
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-oneplus-aston_${{ matrix.version }}
-          path: ${{ github.workspace }}/linux-oneplus-aston.deb
-
-      - name: Upload 16G RAM boot.img
-        uses: actions/upload-artifact@v4
-        with:
-          name: boot-oneplus-aston_${{ matrix.version }}_16G_A15.img
-          path: ${{ github.workspace }}/boot16G.img
-
-      - name: Upload 12G RAM boot.img
-        uses: actions/upload-artifact@v4
-        with:
-          name: boot-oneplus-aston_${{ matrix.version }}_12G_A15.img
-          path: ${{ github.workspace }}/boot12G.img
-
-      - name: Upload 16G RAM A14 boot.img
-        uses: actions/upload-artifact@v4
-        with:
-          name: boot-oneplus-aston_${{ matrix.version }}_16G_A14.img
-          path: ${{ github.workspace }}/boot16G_A14.img
-
   rootfs:
     runs-on: ubuntu-24.04-arm
     strategy:
@@ -93,7 +21,7 @@ jobs:
         run: sudo apt update && sudo apt install unzip bash tar git wget dpkg
 
       - name: Build rootfs
-        run: sudo sh aston-rootfs_build.sh ${{ matrix.desktop }} ${{ github.workspace }}
+        run: sudo sh aston-mobian.sh ${{ matrix.desktop }} ${{ github.workspace }}
 
       - name: Upload rootfs.img
         uses: actions/upload-artifact@v4
@@ -101,33 +29,6 @@ jobs:
           name: between_${{ matrix.desktop }}
           path: rootfs.7z
           compression-level: 0
-
-  rootfs-packager:
-    runs-on: ubuntu-24.04-arm
-    needs: [kernel, alsa, firmware]
-    strategy:
-            matrix:
-                desktop: [ubuntu-desktop]
-                kernel: [6.13]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: between_${{ matrix.desktop }}*   
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: alsa-oneplus-aston*
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: firmware-oneplus-aston*
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: linux-oneplus-aston_${{ matrix.kernel }}
-      - name: Install Dependencies
-        run: sudo apt update && sudo apt install unzip 7zip bash tar git wget dpkg
-
-      - name: Package rootfs
-        run: sudo sh aston-rootfs_package.sh ${{ github.workspace }}
         
       - name: Upload rootfs.7z
         uses: actions/upload-artifact@v4
