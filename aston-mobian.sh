@@ -34,6 +34,8 @@ sudo cat rootdir/etc/apt/sources.list
 chroot rootdir echo "nameserver 8.8.8.8" >> /lib/systemd/resolv.conf
 rm rootdir/etc/resolv.conf
 echo "nameserver 8.8.8.8" >  rootdir/etc/resolv.conf
+chroot rootdir sed -i 's|http://security.debian.org/|http://security.debian.org/debian-security|g' /etc/apt/sources.list
+chroot rootdir sed -i 's/bookworm-security /bookworm-security main non-free-firmware/g' /etc/apt/sources.list
 chroot rootdir apt update
 chroot rootdir apt upgrade -y
 chroot rootdir apt install -y python3-defer
