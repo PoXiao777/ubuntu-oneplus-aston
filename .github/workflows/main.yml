@@ -45,7 +45,7 @@ jobs:
 
 
   kernel:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     strategy:
             matrix:
                 version: [6.13]
@@ -83,7 +83,7 @@ jobs:
           path: ${{ github.workspace }}/boot16G_A14.img
 
   rootfs:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     strategy:
             matrix:
                 desktop: [ubuntu-desktop]
@@ -93,7 +93,7 @@ jobs:
         run: sudo apt update && sudo apt install unzip bash tar git wget dpkg
 
       - name: Build rootfs
-        run: sudo sh aston-rootfs_build.sh ${{ matrix.desktop }} ${{ github.workspace }}
+        run: sudo sh aston-mobian-rootfs.sh ${{ matrix.desktop }} ${{ github.workspace }}
 
       - name: Upload rootfs.img
         uses: actions/upload-artifact@v4
@@ -103,7 +103,7 @@ jobs:
           compression-level: 0
 
   rootfs-packager:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     needs: [kernel, alsa, firmware]
     strategy:
             matrix:
@@ -137,7 +137,7 @@ jobs:
           compression-level: 0
           
   cleaner:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     needs: rootfs-packager
     steps:
       - uses: geekyeggo/delete-artifact@v5
