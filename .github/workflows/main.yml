@@ -90,7 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt update && sudo apt install unzip bash tar git wget dpkg
+        run: sudo apt update && sudo apt install unzip bash tar git wget curl dpkg simg2img
 
       - name: Build rootfs
         run: sudo sh aston-mobian-rootfs.sh ${{ matrix.desktop }} ${{ github.workspace }}
