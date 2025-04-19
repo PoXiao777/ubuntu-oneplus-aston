@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
             matrix:
-                version: [6.13]
+                version: [6.14]
     steps:
       - uses: actions/checkout@v4
 
