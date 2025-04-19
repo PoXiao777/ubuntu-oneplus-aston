@@ -36,7 +36,7 @@ chroot rootdir systemctl enable ssh
 chroot rootdir apt install -y wget
 chroot rootdir wget https://github.com/localsend/localsend/releases/download/v1.17.0/LocalSend-1.17.0-linux-arm-64.deb
 chroot rootdir dpkg -i LocalSend-1.17.0-linux-arm-64.deb
-chroot rootdir apt --fix-broken install
+chroot rootdir apt --fix-broken install -y
 chroot rootdir rm -f LocalSend-1.17.0-linux-arm-64.deb
 
 echo "#!/bin/bash
