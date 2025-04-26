@@ -33,6 +33,13 @@ chroot rootdir apt install -y openssh-server
 chroot rootdir sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 chroot rootdir systemctl enable ssh
 
+LS_VS="1.17.0"
+chroot rootdir apt install -y wget
+chroot rootdir wget https://github.com/localsend/localsend/releases/download/v${LS_VS}/LocalSend-${LS_VS}-linux-arm-64.deb
+chroot rootdir dpkg -i LocalSend-${LS_VS}-linux-arm-64.deb
+chroot rootdir apt --fix-broken install -y
+chroot rootdir rm -f LocalSend-${LS_VS}-linux-arm-64.deb
+
 echo "#!/bin/bash
 exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
 chroot rootdir dpkg --configure python3-defer
