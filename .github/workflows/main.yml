@@ -2,6 +2,11 @@ name: rootfs
 
 on:
   workflow_dispatch:
+    inputs:
+      config:
+        description: "The URL of the custom config"
+        required: true
+        default: "Default"
 
 jobs:
   kernel:
@@ -17,7 +22,7 @@ jobs:
         run: sudo apt update && sudo apt install build-essential gcc-aarch64-linux-gnu bc flex bison 7zip kmod bash cpio binutils tar git wget dpkg libssl-dev python3 python-is-python3
 
       - name: Build kernel
-        run: sudo sh aston-kernel_build.sh ${{ github.workspace }} ${{ matrix.version }}
+        run: sudo sh aston-kernel_build.sh ${{ github.workspace }} ${{ matrix.version }} ${{ github.event.inputs.config }}
 
       - name: Upload linux.deb
         uses: actions/upload-artifact@v4
