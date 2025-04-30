@@ -44,22 +44,20 @@ echo "#!/bin/bash
 exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
 chroot rootdir dpkg --configure python3-defer
 
+#KDE
+chroot rootdir cat /etc/X11/default-display-manager
+chroot rootdir echo "Hello.This is test."
+chroot rootdir apt-get install sddm -y
+chroot rootdir dpkg-reconfigure sddm
+
 chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-boot-tools- cloud-init- wireless-regdb- libreoffice*- transmission*- remmina*- $1
 
 echo "[Daemon]
 DeviceScale=2" | tee rootdir/etc/plymouth/plymouthd.conf
 
-echo "[org.gnome.desktop.interface]
-scaling-factor=2" | tee rootdir/usr/share/glib-2.0/schemas/93_hidpi.gschema.override
-
 echo "PARTLABEL=win / ext4 errors=remount-ro,x-systemd.growfs 0 1" | tee rootdir/etc/fstab
 
 echo 'ACTION=="add", SUBSYSTEM=="misc", KERNEL=="udmabuf", TAG+="uaccess"' | tee rootdir/etc/udev/rules.d/99-oneplus-aston.rules
-
-chroot rootdir glib-compile-schemas /usr/share/glib-2.0/schemas
-
-mkdir rootdir/var/lib/gdm
-touch rootdir/var/lib/gdm/run-initial-setup
 
 chroot rootdir pw-metadata -n settings 0 clock.force-quantum 2048
 
