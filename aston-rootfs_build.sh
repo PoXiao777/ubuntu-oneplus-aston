@@ -45,7 +45,6 @@ exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
 chroot rootdir dpkg --configure python3-defer
 
 #KDE
-chroot rootdir cat /etc/X11/default-display-manager
 chroot rootdir echo "Hello.This is test."
 chroot rootdir apt-get install sddm -y
 chroot rootdir dpkg-reconfigure sddm
@@ -54,10 +53,17 @@ chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-b
 
 #Change Password 123456
 chroot rootdir cat /etc/shadow
-chroot rootdir sed -i '/^root:/s/:[^:]*/paa5KD6arxLr2/' /etc/shadow
-chroot rootdir sed -i '/^ubuntu:/s/:[^:]*/paa5KD6arxLr2/' /etc/shadow
+chroot rootdir sed -i '/^root:/s/^\(root:\)[^:]*/\1paa5KD6arxLr2/' /etc/shadow
 chroot rootdir echo "Hello."
 chroot rootdir cat /etc/shadow
+
+chroot rootdir sed -i \
+-e '/^\s*auth\s\+required\s\+pam_succeed_if\.so user != root nopasswdlogin/s/^/#/' \
+-e '/^\s*#\s*auth\s\+sufficient\s\+pam_succeed_if\.so user ingroup nopasswdlogin/s/^#\s*//' \
+/etc/pam.d/sddm
+chroot rootdir cat /etc/pam.d/sddm
+chroot rootdir echo "HelloWod"
+chroot rootdir cat /etc/sddm.conf
 
 echo "[Daemon]
 DeviceScale=2" | tee rootdir/etc/plymouth/plymouthd.conf
