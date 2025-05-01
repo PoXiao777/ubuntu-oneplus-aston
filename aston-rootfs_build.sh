@@ -53,8 +53,11 @@ chroot rootdir dpkg-reconfigure sddm
 chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-boot-tools- cloud-init- wireless-regdb- libreoffice*- transmission*- remmina*- $1
 
 #Change Password 123456
+chroot rootdir cat /etc/shadow
 chroot rootdir sed -i '/^root:/s/:[^:]*/paa5KD6arxLr2/' /etc/shadow
 chroot rootdir sed -i '/^ubuntu:/s/:[^:]*/paa5KD6arxLr2/' /etc/shadow
+chroot rootdir echo "Hello."
+chroot rootdir cat /etc/shadow
 
 echo "[Daemon]
 DeviceScale=2" | tee rootdir/etc/plymouth/plymouthd.conf
