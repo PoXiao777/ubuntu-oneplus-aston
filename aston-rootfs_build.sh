@@ -57,13 +57,13 @@ chroot rootdir sed -i '/^root:/s/^\(root:\)[^:]*/\1paa5KD6arxLr2/' /etc/shadow
 chroot rootdir echo "Hello."
 chroot rootdir cat /etc/shadow
 
+chroot rootdir cat /etc/pam.d/sddm
 chroot rootdir sed -i \
--e '/^\s*auth\s\+required\s\+pam_succeed_if\.so user != root nopasswdlogin/s/^/#/' \
+-e '/^\s*auth\s\+required\s\+pam_succeed_if\.so user != root quiet_success/s/^/#/' \
 -e '/^\s*#\s*auth\s\+sufficient\s\+pam_succeed_if\.so user ingroup nopasswdlogin/s/^#\s*//' \
 /etc/pam.d/sddm
 chroot rootdir cat /etc/pam.d/sddm
 chroot rootdir echo "HelloWod"
-chroot rootdir cat /etc/sddm.conf
 
 echo "[Daemon]
 DeviceScale=2" | tee rootdir/etc/plymouth/plymouthd.conf
