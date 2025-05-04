@@ -28,17 +28,23 @@ export DEBIAN_FRONTEND=noninteractive
 
 chroot rootdir apt update
 chroot rootdir apt upgrade -y
+chroot rootdir apt install wget -y
 chroot rootdir apt install -y python3-defer
 chroot rootdir apt install -y openssh-server
 chroot rootdir sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 chroot rootdir systemctl enable ssh
 
 LS_VS="1.17.0"
-chroot rootdir apt install -y wget
 chroot rootdir wget https://github.com/localsend/localsend/releases/download/v${LS_VS}/LocalSend-${LS_VS}-linux-arm-64.deb
 chroot rootdir dpkg -i LocalSend-${LS_VS}-linux-arm-64.deb
 chroot rootdir apt --fix-broken install -y
 chroot rootdir rm -f LocalSend-${LS_VS}-linux-arm-64.deb
+
+FLC_VS="0.8.84"
+chroot rootdir wget https://github.com/chen08209/FlClash/releases/download/v${FLC_VS}/FlClash-${FLC_VS}-linux-arm64.deb
+chroot rootdir dpkg -i FlClash-${FLC_VS}-linux-arm64.deb
+chroot rootdir apt --fix-broken install -y
+chroot rootdir rm -f FlClash-${FLC_VS}-linux-arm64.deb
 
 echo "#!/bin/bash
 exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
