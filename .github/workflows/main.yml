@@ -47,6 +47,12 @@ jobs:
         with:
           name: boot-oneplus-aston_${{ matrix.version }}_16G_A14.img
           path: ${{ github.workspace }}/boot16G_A14.img
+          
+      - name: Upload 12G RAM A14 boot.img
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-oneplus-aston_${{ matrix.version }}_12G_A14.img
+          path: ${{ github.workspace }}/boot12G_A14.img
 
   rootfs:
     runs-on: ubuntu-24.04-arm
