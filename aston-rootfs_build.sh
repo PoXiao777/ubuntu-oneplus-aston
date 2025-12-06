@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="25.04"
+VERSION="25.10"
 
 cd $2
 
